@@ -1,1 +1,28 @@
-Conrollo PIC18F2550
+OpenPicOs
+
+Gestione di un display lcd nokia (PCF8833).
+
+Hardware:
+5 input pin (digital Pad)
+mmc microsd (modalità SPI)
+nokia lcd (PCF8833)
+PIC18F2550 @ 20mhz
+
+
+Software:
+-driver lcd PCF8833
+-driver mmc spi
+-16bit color mode
+-semplice gui per le impostazioni (contrasto, orientamento, USB Bootloader) 
+-mmc file explore (da completare)
+-bmp 24bit reader in mmc (max 132x132 px da completare)
+-txt file reader in mmc ( da completare)
+
+old software:
+-8bit color mode
+-tetris
+-arkanoid
+-3d cube rotation
+-screen saver analog clock
+
+
