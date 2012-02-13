@@ -24,11 +24,37 @@ char menu[2][5][11]={
 };
 int riga[10]={14,24,34,44,54,64,74,84,94,104};
 char logo[20];
+int8 secondi=0, minuti=0, ore=0;
+#int_TIMER1
+void  TIMER1_isr(void)     //  tick
+{
+TMR1H=0x80;
+secondi++; // incremento i secondi
+ 
+      if (secondi==60)
+         {
+         secondi=0;
+         minuti++;       
+         }
+      if (minuti==60)
+         {
+         minuti=0;
+         ore++;
+         }
+      if (ore==24)
+         {
+         ore=0;
+         }
+TMR1IF=0;
+      if (secondi==0){
+         quadrato(100,130,1,11, BLUE);
+         gotoxy(101,3);
+         font_color(WHITE);
+         printf(fonts,"%02d:%02d",ore,minuti);
+         }
+} 
 
-
-void main(void){
-   
-
+void main(void){ 
    Init_Spi();
    Init_Lcd();
    
@@ -43,7 +69,14 @@ void main(void){
    
    update_menu();
    loop=4;
-   
+  TMR1H=0x80;
+  TMR1L=0X00;
+  GIE=1;
+  PEIE=1;
+  TMR1IE=1;
+  T1CON=0b00001111;
+
+  
    //set_tris_b(0x00);
    while (TRUE) {
       
@@ -86,6 +119,20 @@ void main(void){
          enable_slide=0;
          delay_ms(150);
       }
+      
+      if((input_state(PB_OK)==0)&&(loop==1)&&(submenu==0)){
+      unsigned int16 colormaggy=0x0f00,colorcount=0;
+         delay_ms(100);
+         quadrato(1,130,1,130, WHITE);
+         for(colorcount=0; colorcount<0xffff; colorcount++){
+         gotoxy(50,50);
+         font_color(colormaggy);
+         printf(fonts,"Ciao mondo");
+         colormaggy=colormaggy+0x001f;
+         delay_ms(1);  
+         }
+         update_menu();
+      } 
       
       if((input_state(PB_OK)==0)&&(loop==4)&&(submenu==0)){
          delay_ms(100);
@@ -320,7 +367,8 @@ char f,i;
 }
 
 void draw_txt(char *fnome){
-char f,c;
+char f,c,tmp;
+unsigned int8 i;
 quadrato(1,130,1,12, BLUE);           
 font_color(WHITE);
 gotoxy(5,4);
@@ -331,8 +379,34 @@ if(MMCInit() == MMC_OK){
          InitFAT();
          f = fopen(fnome,'r');
          if((f & MMC_ERROR) == 0) {       
-            while(fgetch(&c,f) == MMC_OK){printf(fonts, "%c",c); delay_ms(20);}
-            fclose(f);
+            while(fgetch(&c,f) == MMC_OK) { 
+               
+               
+               //if(fgetch(&c,f)!=MMC_OK) i=255;
+               
+               if((tmp==0x0d)&&(c==0x0a)) {y=y+10; x=5; gotoxy(x,y);}
+               if((x==0x05)&&(c==0x20)) {c=0x0d;}
+               
+               if(c!=0x0d){
+                  if(c!=0x0a){
+                     if(c!=0x09){                        
+                        printf(fonts, "%c",c); 
+                        delay_ms(20);                          
+                        }
+                     }
+                  }
+                  if(c==0x09) {x=x+15; gotoxy(x,y);}
+                  if(x>125){ x=5; y=y+10;}
+                  tmp=c;
+                  if(y>120){
+                     while(input_state(PB_DOWN)==1)
+                     ;
+                     quadrato(1,130,13,130, WHITE);
+                     gotoxy(5,24);
+                     i=0;
+                  }
+               }
+               fclose(f);
             //while(input_state(PB_OK)==1)
            // ;
          }
