@@ -16,7 +16,8 @@ Software:
 -semplice gui per le impostazioni (contrasto, orientamento, USB Bootloader) 
 -mmc file explore (da completare)
 -bmp 24bit reader in mmc (max 132x132 px da completare)
--txt file reader in mmc ( da completare)
+-txt file reader in mmc ( da completare, update 13/02/12)
+-rtc, orologio digitale (update 13/02/12)
 
 old software:
 -8bit color mode
