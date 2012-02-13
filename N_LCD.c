@@ -1,4 +1,3 @@
-
 #include <N_LCD.h>
 #include <Hardware_IO.c>
 #include <Times_fonts.c>
@@ -137,7 +136,7 @@ unsigned int16 color1;
    ///Invia Comando
    void lcd_cmd( int8 cmd){
 
-   //invia 9° bit del comando
+   //invia 9Â° bit del comando
    output_low(LCD_CS);
    output_low(LCD_SCK);
    output_low(LCD_SDO);   //Comando
@@ -155,7 +154,7 @@ unsigned int16 color1;
    void lcd_data( int8 cmd){
 
 
-   //invia 9° bit del comando
+   //invia 9Â° bit del comando
    output_low(LCD_CS);
    output_low(LCD_SCK);
    output_high(LCD_SDO);   //Data
@@ -230,9 +229,10 @@ unsigned int16 color1;
    unsigned int16 index;
    int8 i,b,data;
    
-   if(c==0x0D)c=" ";
-   if(c==0x0A){y=y+10; x=0; c=" ";} 
+   //if(c==0x0D)c=" ";
+  // if(c==0x0A){y=y+10; x=0; c=" ";} 
    c-=32;
+  
    index = (unsigned int16)c*5;
    
    for(i=0; i<5; i++){
@@ -255,8 +255,8 @@ unsigned int16 color1;
       gotoxy(++x,y);
    }
    gotoxy(++x,y);
-   if(x>131){ x=5; y=y+10;}
-   if(y>120) y=24;
+   //if(x>125){ x=5; y=y+10;}
+   //if(y>120) y=24;
    return 0;
    }
    
